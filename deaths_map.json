@@ -7,7 +7,7 @@
   "layer": [
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/BenjyLimmy/FIT3179HW9/main/ne_110m.json",
+        "url": "https://raw.githubusercontent.com/BenjyLimmy/FIT3179HW10/main/ne_110m.json",
         "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
       },
       "mark": {"type": "geoshape", "stroke": "white"},
@@ -16,7 +16,7 @@
           "lookup": "properties.NAME",
           "from": {
             "data": {
-              "url": "https://raw.githubusercontent.com/BenjyLimmy/FIT3179HW9/main/Global%20Country%20Emissions.csv"
+              "url": "https://raw.githubusercontent.com/BenjyLimmy/FIT3179HW10/refs/heads/main/Global%20Country%20Emissions.csv"
             },
             "key": "Entity",
             "fields": ["Air Pollution Deaths (deaths per 100,000)"]
@@ -41,14 +41,14 @@
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/RyanKoh03/FIT3179hw10/main/ne_110m_ocean.topojson",
+        "url": "https://raw.githubusercontent.com/BenjyLimmy/FIT3179HW10/refs/heads/main/ne_110m_ocean.topojson",
         "format": {"type": "topojson", "feature": "oceans"}
       },
       "mark": {"type": "geoshape", "fill": "skyblue", "stroke": "null"}
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/BenjyLimmy/FIT3179HW9/main/ne_110m_graticules_30.json",
+        "url": "https://raw.githubusercontent.com/BenjyLimmy/FIT3179HW10/main/ne_110m_graticules_30.json",
         "format": {"type": "topojson", "feature": "ne_110m_graticules_30"}
       },
       "mark": {"type": "geoshape", "fill": null, "stroke": "lightgrey"}

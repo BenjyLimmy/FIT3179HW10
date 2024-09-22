@@ -1,0 +1,139 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 450,
+    "title": "Country GDP vs Fuel Emissions",
+    "data": {
+      "url": "https://raw.githubusercontent.com/BenjyLimmy/FIT3179HW10/refs/heads/main/Global%20Country%20Emissions.csv"
+    },
+    "params": [
+      
+      {
+        "name": "Continent_selection",
+        "bind": {
+          "input": "select",
+          "options": [
+            null,
+            "North America",
+            "South America",
+            "Europe",
+            "Africa",
+            "Asia",
+            "Oceania"
+          ],
+          "labels": [
+            "Show All",
+            "North America",
+            "South America",
+            "Europe",
+            "Africa",
+            "Asia",
+            "Oceania"
+          ],
+          "name": "Continent Selection: "
+        }
+      }
+    ],
+    "transform": [
+      {"filter": "datum['Year'] == 2023"},
+      {"filter": "datum['GDP per capita ($)'] > 0"},
+      {"filter": "datum['total_emissions_per_capita'] > 0"},
+      {
+        "filter": "Continent_selection == null || datum.Continent == Continent_selection"
+      },
+      {
+        "calculate": "datum['total_emissions_per_capita'] * datum.Population",
+        "as": "Total emissions"
+      }
+    ],
+    "encoding": {
+      "x": {
+        "field": "GDP per capita ($)",
+        "type": "quantitative",
+        "axis" : { "tickCount" : 2, "grid" : false }, 
+        "scale" : { "type" : "log", "domain" : [ 700, 120000 ]}
+      },
+      "y": {
+        "field": "total_emissions_per_capita",
+        "type": "quantitative",
+        "title": "Total Fuel Emissions per Capita (tonnes/person)",
+        "axis" : { "tickCount" : 2, "grid" : false }, 
+        "scale" : { "type" : "log" , "domain" : [ 0.005, 1.2 ]}
+      }
+    },
+    "layer": [
+      {
+        "mark": "circle",
+        "encoding": {
+          "size": {
+            "field": "Population",
+            "type": "quantitative",
+            "scale": {
+              "type": "threshold",
+              "domain": [1000000, 10000000, 50000000, 100000000, 500000000],
+              "range": [10, 50, 150, 200, 300, 700]
+            },
+            "legend": {"format": ".1s"}
+          },
+          "color": {
+            "field": "Continent",
+            "type": "nominal",
+            "scale": {
+              "domain": [
+                "North America",
+                "South America",
+                "Europe",
+                "Africa",
+                "Asia",
+                "Oceania"
+              ],
+              "range": [
+                "#a3cce9",
+                "#c85200",
+                "#fc7d0b",
+                "#82C09A",
+                "#1170aa",
+                "#F9BF6E"
+              ]
+            }
+          },
+          "opacity": {"value": 0.8},
+          "tooltip": [
+            {"field": "Entity", "type": "nominal", "title": "Country"},
+            {"field": "GDP per capita ($)", "type": "quantitative", "format": ",.2f"},
+            {"field": "Population", "type": "quantitative", "format": ","},
+            {"field": "total_emissions_per_capita", "type": "quantitative", "format": ".4f", "title": "Total Fuel Emissions per Capita (tonnes/person)"},
+            { "field" : "Total emissions" , "type" : "quantitative" , "format" : ",.0f", "title": "Total Fuel Emissions (tonnes)" }          
+        ]
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "right",
+          "baseline": "middle",
+          "dx": -12,
+          "fontSize": 11.5,
+          "fontStyle": "italic"
+        },
+        "encoding": {
+          "text": {"field": "Entity", "type": "nominal"},
+          "color": {"value": "black"},
+          "opacity": {
+            "condition": {
+              "test": "datum['Entity'] == 'China' || datum['Entity'] == 'Singapore' || datum['Entity'] == 'Malaysia' || datum['Entity'] == 'Qatar' || datum['Entity'] == 'Switzerland' || datum['Entity'] == 'Yemen' ||  datum['Entity'] == 'United States' ||  datum['Entity'] == 'Palau' ||  datum['Entity'] == 'Venezuela' ||  datum['Entity'] == 'United States of America' ||  datum['Entity'] == 'Egypt' ||  datum['Entity'] == 'Australia' ||  datum['Entity'] == 'Nigeria'",
+              "value": 1
+            },
+            "value": 0
+          },
+          "tooltip": [
+            {"field": "Entity", "type": "nominal", "title": "Country"},
+            {"field": "GDP per capita ($)", "type": "quantitative", "format": ","},
+            {"field": "Population", "type": "quantitative", "format": ","},
+            {"field": "total_emissions_per_capita", "type": "quantitative", "format": ".4f", "title": "Total Fuel Emissions per Capita (tonnes/person)"},
+            { "field" : "Total emissions" , "type" : "quantitative" , "format" : ",.0f", "title": "Total Fuel Emissions (tonnes)" }          
+        ]
+        }
+      }
+    ]
+  }
